@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Detalle de Prestamos</title>
+    </h:head>
+    
+    <style>
+    button.ui-button {
+        margin-right: .5rem;
+    }
+    </style>
+    
+ <h:body>
+<!-- Esto esta es la Barra de Navegacion del Sitio Web -->
+<h:form id="Menu">
+    <p:tabMenu activeIndex="5">
+        <p:menuitem value="Inicio" outcome="/Menu/Menu" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Autores" outcome="/WebDW/Autores" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Estudiantes" outcome="/WebDW/Estudiante" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Libros" outcome="/WebDW/Libros" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Prestamos" outcome="/WebDW/Prestamos" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Detalle de Prestamos" outcome="/WebDW/Vista" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+    </p:tabMenu>
+</h:form>
+<!-- Fin de la de la Barra de Navegacion del Sitio Web -->  
+<p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Vista de Vistas Disponibles -->
+<p:fieldset id="flsDatosVista" legend="Lista de Libros Prestados y Disponibles">
+         <h:form id="formListadoVista">
+             <p:dataTable id="tablaVista" paginator="true" paginatorPosition="bottom" rows="10" var="Vista" value="#{vista2Control.listaVista2s}" emptyMessage="No existen Prestamos Realizados" scrollable="true" scrollHeight="250">
+                            <p:column headerText="Nombre de Libro">
+                                <h:outputText id="txtidModificar" value="#{Vista.nombre}" />
+                            </p:column>
+                            <p:column headerText="ISBN del Libro">
+                                <h:outputText value="#{Vista.isbn}" />
+                            </p:column>
+                            <p:column headerText="Nombre del Autor Libro">
+                                <h:outputText value="#{Vista.nombreAutor}" />
+                            </p:column>
+                            <p:column headerText="Apellido del Autor Libro">
+                                <h:outputText value="#{Vista.apellidoAutor}" />
+                            </p:column>
+                            <p:column headerText="Genero del Libro">
+                                <h:outputText value="#{Vista.descTipo}" />
+                            </p:column>
+                            <p:column headerText="Estado del Libro">
+                                <h:outputText value="#{Vista.estado}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:fieldset>
+    
+            <p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Fin de la Vista de Vistas Disponibles -->
+    </h:body>
+</html>

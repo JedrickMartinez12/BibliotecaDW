@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Prestamos</title>
+    </h:head>
+    
+    <style>
+    button.ui-button {
+        margin-right: .5rem;
+    }
+    </style>
+    
+ <h:body>
+<!-- Esto esta es la Barra de Navegacion del Sitio Web -->
+<h:form id="Menu">
+    <p:tabMenu activeIndex="4">
+        <p:menuitem value="Inicio" outcome="/Menu/Menu" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Autores" outcome="/WebDW/Autores" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Estudiantes" outcome="/WebDW/Estudiante" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Libros" outcome="/WebDW/Libros" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Prestamos" outcome="/WebDW/Prestamos" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Detalle de Prestamos" outcome="/WebDW/Vista" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+    </p:tabMenu>
+</h:form>
+<!-- Fin de la de la Barra de Navegacion del Sitio Web -->  
+<p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Vista de Prestamos Disponibles -->
+<p:fieldset id="flsDatosPrestamo" legend="Lista de Datos de Prestamos">
+<!-- Este es el Boton de Opciones -->
+<h:form>
+    <p:growl id="messages" showDetail="true"/>
+    <p:menuButton value="Optiones">
+        <p:menuitem value="Agregar Prestamo" actionListener="#{prestamoControl.limpiarPrestamo()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregarPrestamo" icon="pi pi-user-plus"/>
+    </p:menuButton>
+</h:form>
+<!-- Aca termina el Boton de Menu de Inicio -->
+<!-- Inicio de vista de Prestamos -->
+         <h:form id="formListadoPrestamo">
+             <p:dataTable id="tablaPrestamo" paginator="true" paginatorPosition="bottom" rows="10" var="Prestamo" value="#{prestamoControl.listaPrestamos}" emptyMessage="No existen Prestamos" scrollable="true" scrollHeight="250">
+                            <p:column headerText="ID Prestamo">
+                                <h:outputText id="txtidModificar" value="#{Prestamo.idPrestamo}" />
+                            </p:column>
+                            <p:column headerText="Fecha del Prestamo Libro">
+                                <h:outputText value="#{Prestamo.fechaPrestamo}" />
+                            </p:column>
+                            <p:column headerText="Fecha Devolucion Libro">
+                                <h:outputText value="#{Prestamo.fechaDevolucion}" />
+                            </p:column>
+                            <p:column headerText="Id del Estudiante">
+                                <h:outputText value="#{Prestamo.codEstudiante}" />
+                            </p:column>
+                            <p:column headerText="Id del Libro">
+                                <h:outputText value="#{Prestamo.codLibro}" />
+                            </p:column>
+
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificarPrestamo" styleClass="rounded-button ui-button-success">
+                                    <f:setPropertyActionListener target="#{prestamoControl.prestamo}" value="#{Prestamo}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:fieldset>
+    
+            <p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Fin de la Vista de Prestamos Disponibles -->
+
+<!-- Formulario para agregar nuevos Prestamos -->
+        <h:form id="formAgregarPrestamo">
+                        <p:dialog id="dlgAgregarPrestamo" header="Agregar Prestamo" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Id del Estudiante:"/>
+                                <p:inputText value="#{prestamoControl.prestamo.codEstudiante}"/>
+                                <p:outputLabel value="Id del Libro:"/>
+                                <p:inputText value="#{prestamoControl.prestamo.codLibro}"/>
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{prestamoControl.agregarPrestamo()}" update=":formListadoPrestamo:tablaPrestamo" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de formulario para agregar nuevos Prestamos-->
+
+<!-- Formulario para Modificar Prestamos -->
+                    <h:form id="formModificarPrestamo">
+                        <p:dialog id="dlgModificarPrestamo" header="Modificar Prestamo" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Fecha y Hora de Devolucion:"/>
+                                <p:inputText value="#{prestamoControl.prestamo.fechaDevolucion}"/>                     
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{prestamoControl.modificarPrestamo()}" update=":formListadoPrestamo:tablaPrestamo" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Modificar Prestamos -->
+
+    </h:body>
+</html>

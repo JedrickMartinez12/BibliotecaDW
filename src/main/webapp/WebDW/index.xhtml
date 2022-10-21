@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Biblioteca</title>
+    </h:head>
+    
+    <style>
+    button.ui-button {
+        margin-right: .5rem;
+    }
+    </style>
+    
+ <h:body>
+<!-- Esto ess un prueba de multi sitio -->
+<h:form id="Menu">
+    <p:tabMenu activeIndex="1">
+        <p:menuitem value="Inicio" outcome="/Menu/Menu" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Autores" outcome="/WebDW/Autores" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+    </p:tabMenu>
+</h:form>
+<!-- Fin de la prueba -->     
+<!-- Este es el Boton de Menu de Inicio -->
+<h:form>
+    <p:growl id="messages" showDetail="true"/>
+ 
+    <p:menuButton value="Optiones">
+        <p:menuitem value="Agregar Autor" actionListener="#{autorControl.limpiarAutor()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregarAutor" icon="pi pi-user-plus"/>
+        <p:menuitem value="Agregar Libro" update=":formAgregarAutor" icon="pi pi-money-bill"/>
+       <!-- <p:menuitem value="Delete" action="#{menuView.delete}" ajax="false" icon="pi pi-times"/> -->
+        <p:separator />
+        <p:menuitem value="Inicio" url="http://www.primefaces.org" icon="pi pi-home"/>
+    </p:menuButton>
+    <p:separator />
+</h:form>
+<!-- Aca termina el Boton de Menu de Inicio -->
+
+<!-- Vista de Autores Disponibles -->
+        <p:fieldset id="flsDatosAutor" legend="Lista de Datos de Autores">
+         <h:form id="formListadoAutor">
+             <p:dataTable id="tablaAutor" paginator="true" paginatorPosition="bottom" rows="10" var="Autor" value="#{autorControl.listaAutors}" emptyMessage="No existen Autores" scrollable="true" scrollHeight="250">
+                            <p:column headerText="ID Autor">
+                                <h:outputText id="txtidModificar" value="#{Autor.idAutor}" />
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{Autor.nombre}" />
+                            </p:column>
+                            <p:column headerText="Apellido">
+                                <h:outputText value="#{Autor.apellido}" />
+                            </p:column>
+
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificarAutor" styleClass="rounded-button ui-button-success">
+                                    <f:setPropertyActionListener target="#{autorControl.autor}" value="#{Autor}"/>
+                                </p:commandButton>
+                            </p:column>
+                            
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminarAutor" styleClass="rounded-button ui-button-danger">
+                                    <f:setPropertyActionListener target="#{autorControl.autor}" value="#{Autor}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:fieldset>
+    
+            <p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Fin de la Vista de Autores Disponibles -->
+
+<!-- Formulario para agregar nuevos Autores -->
+        <h:form id="formAgregarAutor">
+                        <p:dialog id="dlgAgregarAutor" header="Agregar Autor" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{autorControl.autor.nombre}"/>
+                                <p:outputLabel value="Apellido:"/>
+                                <p:inputText value="#{autorControl.autor.apellido}"/>
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{autorControl.agregarAutor()}" update=":formListadoAutor:tablaAutor" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de formulario para agregar nuevos autores-->
+
+<!-- Formulario para Modificar Autores -->
+                    <h:form id="formModificarAutor">
+                        <p:dialog id="dlgModificarAutor" header="Modificar Autor" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{autorControl.autor.nombre}"/>
+                                <p:outputLabel value="Apellido:"/>
+                                <p:inputText value="#{autorControl.autor.apellido}"/>                              
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{autorControl.modificarAutor()}" update=":formListadoAutor:tablaAutor" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Modificar Autores -->
+
+<!-- Formulario para Eliminar Autores -->
+                    <h:form id="formEliminarAutor">
+                        <p:dialog id="dlgEliminarAutor" header="Eliminar Autor" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Desea eliminar este registro?"/>
+                            <p:commandButton  value="Si" actionListener="#{autorControl.eliminarAutor()}" update=":formListadoAutor:tablaAutor" oncomplete="PF('dialogoEliminar').hide();"/>
+                            <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Eliminar Autores -->
+    </h:body>
+</html>
+

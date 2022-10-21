@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Inicio</title>
+    </h:head>
+    
+    <style>
+    button.ui-button {
+        margin-right: .5rem;
+    }
+    </style>
+    <body>
+<!-- Esto ess un prueba de multi sitio -->
+<h:form id="Menu">
+    <p:tabMenu activeIndex="0">
+        <p:menuitem value="Inicio" outcome="/Menu/Menu" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Autores" outcome="/WebDW/Autores" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Estudiantes" outcome="/WebDW/Estudiante" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Libros" outcome="/WebDW/Libros" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Prestamos" outcome="/WebDW/Prestamos" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Detalle de Prestamos" outcome="/WebDW/Vista" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+    </p:tabMenu>
+</h:form>
+<!-- Fin de la prueba -->
+    </body>
+</html>

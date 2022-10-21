@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20 oct. 2022 21:02:23 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.entidad.Vista2" table="vista2" catalog="proyecto_final" optimistic-lock="version">
+        <id name="isbn" type="long">
+            <column name="isbn" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" not-null="true" />
+        </property>
+        <property name="nombreAutor" type="string">
+            <column name="Nombre_Autor" length="100" not-null="true" />
+        </property>
+        <property name="apellidoAutor" type="string">
+            <column name="Apellido_Autor" length="100" not-null="true" />
+        </property>
+        <property name="descTipo" type="string">
+            <column name="desc_tipo" length="100" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

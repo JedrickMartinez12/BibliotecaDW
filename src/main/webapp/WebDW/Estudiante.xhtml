@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Estudiantes</title>
+    </h:head>
+    
+    <style>
+    button.ui-button {
+        margin-right: .5rem;
+    }
+    </style>
+    
+ <h:body>
+<!-- Esto esta es la Barra de Navegacion del Sitio Web -->
+<h:form id="Menu">
+    <p:tabMenu activeIndex="2">
+        <p:menuitem value="Inicio" outcome="/Menu/Menu" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Autores" outcome="/WebDW/Autores" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Estudiantes" outcome="/WebDW/Estudiante" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Libros" outcome="/WebDW/Libros" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Prestamos" outcome="/WebDW/Prestamos" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Detalle de Prestamos" outcome="/WebDW/Vista" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+    </p:tabMenu>
+</h:form>
+<!-- Fin de la de la Barra de Navegacion del Sitio Web -->  
+<p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Vista de Autores Disponibles -->
+<p:fieldset id="flsDatosEstudiante" legend="Lista de Datos de Estudiantes">
+<!-- Este es el Boton de Opciones -->
+<h:form>
+    <p:growl id="messages" showDetail="true"/>
+    <p:menuButton value="Optiones">
+        <p:menuitem value="Agregar Estudiante" actionListener="#{estudianteControl.limpiarEstudiante()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregarEstudiante" icon="pi pi-user-plus"/>
+    </p:menuButton>
+</h:form>
+<!-- Aca termina el Boton de Menu de Inicio -->
+<!-- Inicio de vista de Estudiantes -->
+         <h:form id="formListadoEstudiante">
+             <p:dataTable id="tablaEstudiante" paginator="true" paginatorPosition="bottom" rows="10" var="Estudiante" value="#{estudianteControl.listaEstudiantes}" emptyMessage="No existen Estudiantes" scrollable="true" scrollHeight="250">
+                            <p:column headerText="ID Estudiante">
+                                <h:outputText id="txtidModificar" value="#{Estudiante.idEstudiante}" />
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{Estudiante.nombre}" />
+                            </p:column>
+                            <p:column headerText="Apellido">
+                                <h:outputText value="#{Estudiante.apellido}" />
+                            </p:column>
+
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificarEstudiante" styleClass="rounded-button ui-button-success">
+                                    <f:setPropertyActionListener target="#{estudianteControl.estudiante}" value="#{Estudiante}"/>
+                                </p:commandButton>
+                            </p:column>
+                            
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminarEstudiante" styleClass="rounded-button ui-button-danger">
+                                    <f:setPropertyActionListener target="#{estudianteControl.estudiante}" value="#{Estudiante}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:fieldset>
+    
+            <p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Fin de la Vista de Estudiantes Disponibles -->
+
+<!-- Formulario para agregar nuevos Estudiantes -->
+        <h:form id="formAgregarEstudiante">
+                        <p:dialog id="dlgAgregarEstudiante" header="Agregar Estudiante" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{estudianteControl.estudiante.nombre}"/>
+                                <p:outputLabel value="Apellido:"/>
+                                <p:inputText value="#{estudianteControl.estudiante.apellido}"/>
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{estudianteControl.agregarEstudiante()}" update=":formListadoEstudiante:tablaEstudiante" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de formulario para agregar nuevos Estudiantes-->
+
+<!-- Formulario para Modificar Estudiantes -->
+                    <h:form id="formModificarEstudiante">
+                        <p:dialog id="dlgModificarEstudiante" header="Modificar Estudiante" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{estudianteControl.estudiante.nombre}"/>
+                                <p:outputLabel value="Apellido:"/>
+                                <p:inputText value="#{estudianteControl.estudiante.apellido}"/>                              
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{estudianteControl.modificarEstudiante()}" update=":formListadoEstudiante:tablaEstudiante" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Modificar Estudiantes -->
+
+<!-- Formulario para Eliminar Estudiantes -->
+                    <h:form id="formEliminarEstudiante">
+                        <p:dialog id="dlgEliminarEstudiante" header="Eliminar Estudiante" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Desea eliminar este registro?"/>
+                            <p:commandButton  value="Si" actionListener="#{estudianteControl.eliminarEstudiante()}" update=":formListadoEstudiante:tablaEstudiante" oncomplete="PF('dialogoEliminar').hide();"/>
+                            <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Eliminar Estudiantes -->
+    </h:body>
+</html>

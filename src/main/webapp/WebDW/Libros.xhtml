@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Libros</title>
+    </h:head>
+    
+    <style>
+    button.ui-button {
+        margin-right: .5rem;
+    }
+    </style>
+    
+ <h:body>
+<!-- Esto esta es la Barra de Navegacion del Sitio Web -->
+<h:form id="Menu">
+    <p:tabMenu activeIndex="3">
+        <p:menuitem value="Inicio" outcome="/Menu/Menu" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Autores" outcome="/WebDW/Autores" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Estudiantes" outcome="/WebDW/Estudiante" icon="pi pi-fw pi-home">
+         
+        </p:menuitem>
+        <p:menuitem value="Libros" outcome="/WebDW/Libros" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Prestamos" outcome="/WebDW/Prestamos" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+        <p:menuitem value="Detalle de Prestamos" outcome="/WebDW/Vista" icon="pi pi-user-plus">
+         
+        </p:menuitem>
+    </p:tabMenu>
+</h:form>
+<!-- Fin de la de la Barra de Navegacion del Sitio Web -->  
+<p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Vista de Libros Disponibles -->
+<p:fieldset id="flsDatosLibro" legend="Lista de Datos de Libros">
+<!-- Este es el Boton de Opciones -->
+<h:form>
+    <p:growl id="messages" showDetail="true"/>
+    <p:menuButton value="Optiones">
+        <p:menuitem value="Agregar Libro" actionListener="#{libroControl.limpiarLibro()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregarLibro" icon="pi pi-user-plus"/>
+    </p:menuButton>
+</h:form>
+<!-- Aca termina el Boton de Menu de Inicio -->
+<!-- Inicio de vista de Libros -->
+         <h:form id="formListadoLibro">
+             <p:dataTable id="tablaLibro" paginator="true" paginatorPosition="bottom" rows="10" var="Libro" value="#{libroControl.listaLibros}" emptyMessage="No existen Libros" scrollable="true" scrollHeight="250">
+                            <p:column headerText="ID Libro">
+                                <h:outputText id="txtidModificar" value="#{Libro.idLibro}" />
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{Libro.nombre}" />
+                            </p:column>
+                            <p:column headerText="ISBN">
+                                <h:outputText value="#{Libro.isbn}" />
+                            </p:column>
+                            <p:column headerText="Id de Autor">
+                                <h:outputText value="#{Libro.codAutor}" />
+                            </p:column>
+                            <p:column headerText="Id de Tipo Libro">
+                                <h:outputText value="#{Libro.codTipoLibro}" />
+                            </p:column>
+
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificarLibro" styleClass="rounded-button ui-button-success">
+                                    <f:setPropertyActionListener target="#{libroControl.libro}" value="#{Libro}"/>
+                                </p:commandButton>
+                            </p:column>
+                            
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminarLibro" styleClass="rounded-button ui-button-danger">
+                                    <f:setPropertyActionListener target="#{libroControl.libro}" value="#{Libro}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:fieldset>
+    
+            <p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Fin de la Vista de Libros Disponibles -->
+
+<!-- Formulario para agregar nuevos Libros -->
+        <h:form id="formAgregarLibro">
+                        <p:dialog id="dlgAgregarLibro" header="Agregar Libro" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{libroControl.libro.nombre}"/>
+                                <p:outputLabel value="ISBN:"/>
+                                <p:inputText value="#{libroControl.libro.isbn}"/>
+                                <p:outputLabel value="Id de Autor:"/>
+                                <p:inputText value="#{libroControl.libro.codAutor}"/>
+                                <p:outputLabel value="Id de Tipo Libro:"/>
+                                <p:inputText value="#{libroControl.libro.codTipoLibro}"/>
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{libroControl.agregarLibro()}" update=":formListadoLibro:tablaLibro" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de formulario para agregar nuevos Libros-->
+
+<!-- Formulario para Modificar Libros -->
+                    <h:form id="formModificarLibro">
+                        <p:dialog id="dlgModificarLibro" header="Modificar Libro" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{libroControl.libro.nombre}"/>
+                                <p:outputLabel value="ISBN:"/>
+                                <p:inputText value="#{libroControl.libro.isbn}"/>
+                                <p:outputLabel value="Id de Autor:"/>
+                                <p:inputText value="#{libroControl.libro.codAutor}"/>
+                                <p:outputLabel value="Id de Tipo Libro:"/>
+                                <p:inputText value="#{libroControl.libro.codTipoLibro}"/>                          
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{libroControl.modificarLibro()}" update=":formListadoLibro:tablaLibro" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Modificar Libros -->
+
+<!-- Formulario para Eliminar Libros -->
+                    <h:form id="formEliminarLibro">
+                        <p:dialog id="dlgEliminarLibro" header="Eliminar Libro" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Desea eliminar este registro?"/>
+                            <p:commandButton  value="Si" actionListener="#{libroControl.eliminarLibro()}" update=":formListadoLibro:tablaLibro" oncomplete="PF('dialogoEliminar').hide();"/>
+                            <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Eliminar Libros -->
+
+
+
+<!-- Aca comienzan los formularios para el Tipo de Libro -->
+
+<!-- Vista de TipoLibro Disponibles -->
+<p:fieldset id="flsDatosTipoLibro" legend="Lista de Datos de TipoLibro">
+<!-- Este es el Boton de Opciones -->
+<h:form>
+    <p:growl id="messages" showDetail="true"/>
+    <p:menuButton value="Optiones">
+        <p:menuitem value="Agregar TipoLibro" actionListener="#{tipoLibroControl.limpiarTipoLibro()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregarTipoLibro" icon="pi pi-user-plus"/>
+    </p:menuButton>
+</h:form>
+<!-- Aca termina el Boton de Menu de Inicio -->
+<!-- Inicio de vista de Libros -->
+         <h:form id="formListadoTipoLibro">
+             <p:dataTable id="tablaTipoLibro" paginator="true" paginatorPosition="bottom" rows="10" var="TipoLibro" value="#{tipoLibroControl.listaTipoLibros}" emptyMessage="No existen TipoLibro" scrollable="true" scrollHeight="250">
+                            <p:column headerText="ID TipoLibro">
+                                <h:outputText id="txtidModificar" value="#{TipoLibro.idTipoLibro}" />
+                            </p:column>
+                            <p:column headerText="Descripcion del Tipo de Libro:">
+                                <h:outputText value="#{TipoLibro.descTipo}" />
+                            </p:column>
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificarTipoLibro" styleClass="rounded-button ui-button-success">
+                                    <f:setPropertyActionListener target="#{tipoLibroControl.tipoLibro}" value="#{TipoLibro}"/>
+                                </p:commandButton>
+                            </p:column>
+                            
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminarTipoLibro" styleClass="rounded-button ui-button-danger">
+                                    <f:setPropertyActionListener target="#{tipoLibroControl.tipoLibro}" value="#{TipoLibro}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+            </p:fieldset>
+    
+            <p><!--Esto sirve para generar un espacion entre Fieldsets --></p>
+<!-- Fin de la Vista de Libros Disponibles -->
+
+<!-- Formulario para agregar nuevos TipoLibro -->
+        <h:form id="formAgregarTipoLibro">
+                        <p:dialog id="dlgAgregarTipoLibro" header="Agregar TipoLibro" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Descripcion del Tipo de Libro:"/>
+                                <p:inputText value="#{tipoLibroControl.tipoLibro.descTipo}"/>
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{tipoLibroControl.agregarTipoLibro()}" update=":formListadoTipoLibro:tablaTipoLibro" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de formulario para agregar nuevos TipoLibro-->
+
+<!-- Formulario para Modificar TipoLibro -->
+                    <h:form id="formModificarTipoLibro">
+                        <p:dialog id="dlgModificarTipoLibro" header="Modificar TipoLibro" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Descripcion del Tipo de Libro:"/>
+                                <p:inputText value="#{tipoLibroControl.tipoLibro.descTipo}"/>                       
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{tipoLibroControl.modificarTipoLibro()}" update=":formListadoTipoLibro:tablaTipoLibro" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Modificar TipoLibro -->
+
+<!-- Formulario para Eliminar TipoLibro -->
+                    <h:form id="formEliminarTipoLibro">
+                        <p:dialog id="dlgEliminarTipoLibro" header="Eliminar TipoLibro" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Desea eliminar este registro?"/>
+                            <p:commandButton  value="Si" actionListener="#{tipoLibroControl.eliminarTipoLibro()}" update=":formListadoTipoLibro:tablaTipoLibro" oncomplete="PF('dialogoEliminar').hide();"/>
+                            <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+<!-- Fin de Formulario para Eliminar Libros -->
+    </h:body>
+</html>
