@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Estudiantes</title>
+        <title>LISTA Estudiantes</title>
     </h:head>
     
     <style>
@@ -45,7 +45,7 @@
 <!-- Este es el Boton de Opciones -->
 <h:form>
     <p:growl id="messages" showDetail="true"/>
-    <p:menuButton value="Optiones">
+    <p:menuButton value="Opciones">
         <p:menuitem value="Agregar Estudiante" actionListener="#{estudianteControl.limpiarEstudiante()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregarEstudiante" icon="pi pi-user-plus"/>
     </p:menuButton>
 </h:form>
